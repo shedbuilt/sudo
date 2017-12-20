@@ -1,0 +1,5 @@
+NAME=sudo
+VERSION=1.8.20p2
+REVISION=1
+SRC=http://www.sudo.ws/dist/sudo-1.8.20p2.tar.gz
+SRCMD5=03da8e711caca6fd93e57751bfb74adc

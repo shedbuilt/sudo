@@ -1,14 +1,22 @@
 #!/bin/bash
+declare -A SHED_PKG_LOCAL_OPTIONS=${SHED_PKG_OPTIONS_ASSOC}
+SHED_PKG_LOCAL_DOCDIR="/usr/share/doc/${SHED_PKG_NAME}-${SHED_PKG_VERSION}"
+# Configure
 ./configure --prefix=/usr              \
             --libexecdir=/usr/lib      \
             --with-secure-path         \
             --with-all-insults         \
             --with-env-editor          \
-            --docdir=/usr/share/doc/sudo-1.8.20p2 \
-            --with-passprompt="[sudo] password for %p: "
-make -j $SHED_NUM_JOBS
-make "DESTDIR=$SHED_FAKE_ROOT" install
-ln -sfv libsudo_util.so.0.0.0 "${SHED_FAKE_ROOT}/usr/lib/sudo/libsudo_util.so.0"
-rm "${SHED_FAKE_ROOT}/etc/sudoers"
-mv "${SHED_FAKE_ROOT}/etc/sudoers.dist" "${SHED_FAKE_ROOT}/etc/sudoers.default"
-sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/g" "${SHED_FAKE_ROOT}/etc/sudoers.default"
+            --docdir="$SHED_PKG_LOCAL_DOCDIR" \
+            --with-passprompt="[sudo] password for %p: " &&
+# Build and Install
+make -j $SHED_NUM_JOBS &&
+make DESTDIR="$SHED_FAKE_ROOT" install &&
+ln -sfv libsudo_util.so.0.0.0 "${SHED_FAKE_ROOT}/usr/lib/sudo/libsudo_util.so.0" &&
+rm "${SHED_FAKE_ROOT}/etc/sudoers" &&
+mv "${SHED_FAKE_ROOT}/etc/sudoers.dist" "${SHED_FAKE_ROOT}/usr/share/defaults/etc/sudoers" &&
+sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/g" "${SHED_FAKE_ROOT}/usr/share/defaults/etc/sudoers" || exit 1
+# Optionally Remove Documentation
+if [ -z "${SHED_PKG_LOCAL_OPTIONS[docs]}" ]; then
+    rm -rf "${SHED_FAKE_ROOT}/usr/share/doc"
+fi

@@ -1,5 +1,7 @@
 NAME=sudo
-VERSION=1.8.20p2
+VERSION=1.8.23
 REVISION=1
-SRC=http://www.sudo.ws/dist/sudo-1.8.20p2.tar.gz
-SRCMD5=03da8e711caca6fd93e57751bfb74adc
+SRC=http://www.sudo.ws/dist/sudo-1.8.23.tar.gz
+SRCMD5=ea444d747feb1decfebdffd0b38b0739
+OPTIONS=bootstrap|release (docs)
+DEFAULTS=release docs

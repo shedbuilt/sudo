@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install sudoers file, if absent
 if [ ! -e /etc/sudoers ]; then
-    install -v -m400 /etc/sudoers.default /etc/sudoers
+    install -vm400 /usr/share/defaults/etc/sudoers /etc/sudoers
 fi
 # Add wheel group for sudoers, if absent
 getent group wheel

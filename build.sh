@@ -14,6 +14,7 @@ make -j $SHED_NUM_JOBS &&
 make DESTDIR="$SHED_FAKE_ROOT" install &&
 ln -sfv libsudo_util.so.0.0.0 "${SHED_FAKE_ROOT}/usr/lib/sudo/libsudo_util.so.0" &&
 rm "${SHED_FAKE_ROOT}/etc/sudoers" &&
+mkdir -pv "${SHED_FAKE_ROOT}/usr/share/defaults/etc/" &&
 mv "${SHED_FAKE_ROOT}/etc/sudoers.dist" "${SHED_FAKE_ROOT}/usr/share/defaults/etc/sudoers" &&
 sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/g" "${SHED_FAKE_ROOT}/usr/share/defaults/etc/sudoers" || exit 1
 # Optionally Remove Documentation

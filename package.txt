@@ -1,7 +1,9 @@
 NAME=sudo
 VERSION=1.8.23
-REVISION=1
+REVISION=2
 SRC=http://www.sudo.ws/dist/sudo-1.8.23.tar.gz
 SRCMD5=ea444d747feb1decfebdffd0b38b0739
+BUILDDEPS=pam
+INSTALLDEPS=pam
 OPTIONS=bootstrap|release (docs)
 DEFAULTS=release docs

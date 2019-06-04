@@ -15,9 +15,11 @@ ln -sfv libsudo_util.so.0.0.0 "${SHED_FAKE_ROOT}/usr/lib/sudo/libsudo_util.so.0"
 sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/g" "${SHED_FAKE_ROOT}/etc/sudoers.dist"
 install -vDm400 "${SHED_FAKE_ROOT}/etc/sudoers.dist" "${SHED_FAKE_ROOT}${SHED_PKG_DEFAULTS_INSTALL_DIR}/etc/sudoers" &&
 rm "${SHED_FAKE_ROOT}/etc/sudoers" &&
-rm "${SHED_FAKE_ROOT}/etc/sudoers.dist" &&
-# Install Defaults
-install -v -Dm644 "${SHED_PKG_CONTRIB_DIR}/sudo" "${SHED_FAKE_ROOT}${SHED_PKG_DEFAULTS_INSTALL_DIR}/etc/pam.d/sudo" || exit 1
+rm "${SHED_FAKE_ROOT}/etc/sudoers.dist" || exit 1
+# Install Defaults for PAM
+if [ -n "${SHED_PKG_LOCAL_OPTIONS[pam]}" ]; then
+    install -v -Dm644 "${SHED_PKG_CONTRIB_DIR}/sudo" "${SHED_FAKE_ROOT}${SHED_PKG_DEFAULTS_INSTALL_DIR}/etc/pam.d/sudo" || exit 1
+fi
 # Optionally Remove Documentation
 if [ -z "${SHED_PKG_LOCAL_OPTIONS[docs]}" ]; then
     rm -rf "${SHED_FAKE_ROOT}${SHED_PKG_DOCS_INSTALL_DIR}"
